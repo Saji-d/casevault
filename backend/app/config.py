@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     )
     
     # CORS Origins (allow Next.js frontend to talk to FastAPI backend)
-    # Override in deployment with a JSON list, e.g. ALLOWED_ORIGINS='["https://casevault.vercel.app"]'
+    # Override in deployment with a JSON list, e.g. ALLOWED_ORIGINS='["https://casevault-bd.vercel.app"]'
     ALLOWED_ORIGINS: list[str] = [
         "http://localhost:3000",
         "http://127.0.0.1:3000",

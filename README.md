@@ -4,8 +4,8 @@ Legal document search for Bangladeshi law: a FastAPI backend and a Next.js front
 
 **Status: Phase 1 prototype.** Development is paused and may resume. This repository shows the project exactly as far as it was built.
 
-- Live app: https://casevault.vercel.app
-- API: https://casevault-api.vercel.app (interactive docs at `/docs`)
+- Live app: https://casevault-bd.vercel.app
+- API: https://casevault-bd-api.vercel.app (interactive docs at `/docs`)
 
 ## What is built (Phase 1)
 
