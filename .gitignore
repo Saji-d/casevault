@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+*.db
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# Env and local files
+.env
+.env.*
+!.env.example
+.vercel/
+.DS_Store
+
+# Backups of the pre-publication git history
+.git-backup*/
