@@ -1,3 +1,4 @@
+import re
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy import or_, and_, desc, asc, func, exists, case
 from app.models import Document, Tag, document_tag
@@ -183,27 +184,29 @@ class DocumentRepository:
         filters = []
 
         if keyword:
-            kw = keyword.strip()
-
-            # Tag name search via correlated subquery (no join duplication)
-            tag_match = exists().where(
-                and_(
-                    document_tag.c.document_id == Document.id,
-                    document_tag.c.tag_id == Tag.id,
-                    Tag.name.ilike(f"%{kw}%")
+            # Every word must match somewhere, so "Penal Code 1860" finds
+            # "The Penal Code, 1860" despite the punctuation in between.
+            terms = re.findall(r"\w+", keyword) or [keyword.strip()]
+            for term in terms:
+                # Tag name search via correlated subquery (no join duplication)
+                tag_match = exists().where(
+                    and_(
+                        document_tag.c.document_id == Document.id,
+                        document_tag.c.tag_id == Tag.id,
+                        Tag.name.ilike(f"%{term}%")
+                    )
                 )
-            )
 
-            filters.append(
-                or_(
-                    Document.title.ilike(f"%{kw}%"),
-                    Document.content.ilike(f"%{kw}%"),
-                    Document.summary.ilike(f"%{kw}%"),
-                    Document.category.ilike(f"%{kw}%"),
-                    Document.slug.ilike(f"%{kw}%"),
-                    tag_match
+                filters.append(
+                    or_(
+                        Document.title.ilike(f"%{term}%"),
+                        Document.content.ilike(f"%{term}%"),
+                        Document.summary.ilike(f"%{term}%"),
+                        Document.category.ilike(f"%{term}%"),
+                        Document.slug.ilike(f"%{term}%"),
+                        tag_match
+                    )
                 )
-            )
 
         if title:
             filters.append(Document.title.ilike(f"%{title.strip()}%"))
@@ -241,11 +244,20 @@ class DocumentRepository:
                     (Document.title.ilike(f"%{kw}%"), 2),
                     else_=5
                 )
+                # More query words in the title or slug ranks higher
+                terms = re.findall(r"\w+", kw) or [kw]
+                title_hits = sum(
+                    case(
+                        (or_(Document.title.ilike(f"%{t}%"), Document.slug.ilike(f"%{t}%")), 1),
+                        else_=0
+                    )
+                    for t in terms
+                )
                 summary_match = case(
                     (Document.summary.ilike(f"%{kw}%"), 0),
                     else_=2
                 )
-                query = query.order_by(title_exact, summary_match, desc(Document.year))
+                query = query.order_by(title_exact, desc(title_hits), summary_match, desc(Document.year))
             else:
                 query = query.order_by(desc(Document.updated_at), desc(Document.year))
 

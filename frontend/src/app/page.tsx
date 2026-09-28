@@ -152,6 +152,18 @@ function HomeContent() {
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
+  // Search requests are queued and run after React commits the new state, so
+  // handlers that set a query/filter and then search never read stale values.
+  const [pendingSearch, setPendingSearch] = useState<{ page: number } | null>(null);
+  const requestSearch = (page = 1) => setPendingSearch({ page });
+
+  useEffect(() => {
+    if (pendingSearch) {
+      executeSearch(pendingSearch.page);
+      setPendingSearch(null);
+    }
+  }, [pendingSearch]);
+
   const executeSearch = async (page = 1) => {
     setIsLoadingSearch(true);
     setReadingDocSlug(null);
@@ -194,7 +206,7 @@ function HomeContent() {
   // Called when category filter changes in sidebar / drawer
   const handleFilterChange = () => {
     if (activeSection === "search") {
-      executeSearch(1);
+      requestSearch(1);
     }
   };
 
@@ -259,9 +271,7 @@ function HomeContent() {
   const handlePopularSearch = (term: string) => {
     setSearchQuery(term);
     setActiveSection("search");
-    setTimeout(() => {
-      executeSearch(1);
-    }, 0);
+    requestSearch(1);
   };
 
   const handleNavigateHome = () => {
@@ -402,6 +412,7 @@ function HomeContent() {
                     onClick={() => {
                       setSelectedCategory(cat.name);
                       setActiveSection("search");
+                      requestSearch(1);
                     }}
                   />
                 ))}
@@ -605,7 +616,7 @@ function HomeContent() {
                   <button
                     onClick={() => {
                       handleResetFilters();
-                      if (activeSection === "search") executeSearch(1);
+                      if (activeSection === "search") requestSearch(1);
                     }}
                     className="w-full text-center text-[10px] font-semibold text-muted-foreground hover:text-foreground transition-colors pt-1 block cursor-pointer"
                   >
