@@ -22,7 +22,7 @@
   </p>
 
   <p>
-    <a href="#-overview">Overview</a> · <a href="#-highlights">Highlights</a> · <a href="#-preview">Preview</a> · <a href="#-architecture">Architecture</a> · <a href="#-tech-stack">Tech Stack</a> · <a href="#-getting-started">Getting Started</a> · <a href="#-roadmap">Roadmap</a>
+    <a href="#-overview">Overview</a> · <a href="#-highlights">Highlights</a> · <a href="#-preview">Preview</a> · <a href="#-architecture">Architecture</a> · <a href="#-tech-stack">Tech Stack</a> · <a href="#-getting-started">Getting Started</a>
   </p>
 </div>
 
@@ -149,8 +149,7 @@ On Vercel the API uses a SQLite database in `/tmp` that is rebuilt from `documen
 
 ## ◈ Project Structure
 
-<details>
-<summary><b>Show the tree</b></summary>
+`backend/` is the FastAPI service, `frontend/` the Next.js app and `documents/` the Markdown legal corpus.
 
 ```text
 casevault/
@@ -162,26 +161,18 @@ casevault/
 └── Plan.md             # Target architecture (not yet implemented)
 ```
 
-</details>
-
-<img src="assets/divider.svg" alt="" width="100%">
-
-## ◈ Roadmap
-
-- [x] Markdown corpus with startup sync
-- [x] Keyword search, filters, sorting and pagination
-- [x] Document reader UI
-- [ ] Semantic search with embeddings and a knowledge graph layer
-- [ ] LLM-powered summary and citation layer
-- [ ] OCR and document upload pipeline
-- [ ] Authentication and firm workspaces
-
 <img src="assets/divider.svg" alt="" width="100%">
 
 ## ◈ Author
 
-**Sajidur Rahman Sajid**, Full-Stack Developer and AI engineer from Dhaka.
+**Sajidur Rahman Sajid**: Full-Stack Developer and AI engineer from Dhaka.<br>
+BSc in CSE at American International University-Bangladesh (AIUB).
 
-[Portfolio](https://www.sajidur.me) · [LinkedIn](https://www.linkedin.com/in/sajidur-rahman-sajid/) · [GitHub](https://github.com/Saji-d) · [Email](mailto:sajidsajidurrahman99@gmail.com)
+<p>
+  <a href="https://www.sajidur.me"><img src="https://img.shields.io/badge/Portfolio-0B0E1A?style=flat-square&logo=googlechrome&logoColor=9B8CFA" alt="Portfolio"></a>
+  <a href="https://www.linkedin.com/in/sajidur-rahman-sajid/"><img src="https://img.shields.io/badge/LinkedIn-0B0E1A?style=flat-square&logo=linkedin&logoColor=8B7CF6" alt="LinkedIn"></a>
+  <a href="https://github.com/Saji-d"><img src="https://img.shields.io/badge/GitHub-0B0E1A?style=flat-square&logo=github&logoColor=EEF0FA" alt="GitHub"></a>
+  <a href="mailto:sajidsajidurrahman99@gmail.com"><img src="https://img.shields.io/badge/Email-0B0E1A?style=flat-square&logo=gmail&logoColor=9B8CFA" alt="Email"></a>
+</p>
 
 <div align="center"><sub>Legal text in the corpus is sample content for demonstration and is not legal advice.</sub></div>
